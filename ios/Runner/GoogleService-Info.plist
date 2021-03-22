@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1068210983833-nh78piqjs7hn86nfi09hvdmenifkr7a9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1068210983833-nh78piqjs7hn86nfi09hvdmenifkr7a9</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1068210983833-3rhs74schtmnonquuhec727634dc8mi3.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD5xayQLjNLmiH-AVgP0Hr1NyFqt_9Hlnc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1068210983833</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.app.daamcard</string>
+	<key>PROJECT_ID</key>
+	<string>daam-card</string>
+	<key>STORAGE_BUCKET</key>
+	<string>daam-card.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1068210983833:ios:d0c42ef936a0640c7c3908</string>
+	<key>DATABASE_URL</key>
+	<string>https://daam-card.firebaseio.com</string>
+</dict>
+</plist>

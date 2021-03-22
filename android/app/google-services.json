@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1068210983833",
+    "firebase_url": "https://daam-card.firebaseio.com",
+    "project_id": "daam-card",
+    "storage_bucket": "daam-card.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068210983833:android:64220ae2701e13147c3908",
+        "android_client_info": {
+          "package_name": "com.app.daamcard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1068210983833-3rhs74schtmnonquuhec727634dc8mi3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.daamcard",
+            "certificate_hash": "aed31c055c274d84f3780c258a80ebc9cf18c1a0"
+          }
+        },
+        {
+          "client_id": "1068210983833-83a9hjn4bqhnt5gvet88bcaqlj897n0t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOCBglrqlIcW7DB59LrtqV4of9KzUfJ_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1068210983833-83a9hjn4bqhnt5gvet88bcaqlj897n0t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
