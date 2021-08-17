@@ -27,6 +27,7 @@ import 'package:first_card_project/Models/UserActiveCard.dart';
 import 'package:first_card_project/Models/UserCouponHistoryModel.dart';
 import 'package:first_card_project/Models/UserDetails.dart';
 import 'package:first_card_project/Models/UserHistory.dart';
+import 'package:first_card_project/Models/notificationModel.dart';
 import 'package:first_card_project/Models/serviceProvidersModel.dart';
 import 'package:first_card_project/Resources/API.dart';
 import 'package:http/http.dart' as http;
@@ -272,6 +273,13 @@ class ApiProvider{
 
     return ImageSliderModel.fromJson(response);
   }
+  Future<ImageSliderModel> getImagesProvider(provideID) async {
+    var response = await _loadData(ReqType.POST, API.providerSlider, body: <String,String>{
+      "service_provider_id":"$provideID"
+    });
+
+    return ImageSliderModel.fromJson(response);
+  }
 
   Future<NetworkModel> getNetworks() async {
     var response = await _loadData(ReqType.DIO, API.networks);
@@ -287,7 +295,10 @@ class ApiProvider{
     var response = await _loadData(ReqType.DIO, API.faq);
     return FaqModel.fromJson(response);
   }
-
+  Future<NotificationModel> getNoty() async {
+    var response = await _loadData(ReqType.DIO, API.notification);
+    return NotificationModel.fromJson(response);
+  }
 
   Future<GeneralModel> sendContactUs(name,email,phone,subject,message) async{
     Map<String,String> body = {
@@ -381,7 +392,16 @@ class ApiProvider{
     return GeneralModel.fromJson(response);
 
   }
+  Future<GeneralModel> changeFirebaseProviderToken(String token) async{
+    Map<String,String> body = {
+      "notification_token": token,
+      "device_type": Platform.isAndroid?'1':'2'
+    };
+    var response = await _loadData(ReqType.POST, API.changeFirebaseProviderToken, body: body);
 
+    return GeneralModel.fromJson(response);
+
+  }
   Future<SingleNews> getNewsDetails(id) async {
 
     Map<String,String> body ={
@@ -496,10 +516,10 @@ class ApiProvider{
 
     return GeneralModel.fromJson(response);
   }
-  Future<GeneralModel> scanCode(serialNumber,value) async{
+  Future<GeneralModel> scanCode(providerID,value) async{
 
     Map body ={
-      "serial_number": "$serialNumber",
+      "qr_code": "$providerID",
       "value": "$value"
     };
 
@@ -507,10 +527,11 @@ class ApiProvider{
 
     return GeneralModel.fromJson(response);
   }
-  Future<GeneralModel> scanCouponCode(serialNumber,value) async{
+  Future<GeneralModel> scanCouponCode(serialNumber,coupnID,value) async{
 
     Map body ={
-      "serial_number": "$serialNumber",
+      "qr_code": "$serialNumber",
+      "coupon":"$coupnID",
       "value": "$value"
     };
 

@@ -13,22 +13,26 @@ class ServiceProviderDetailsModel {
     this.message,
     this.data,
     this.code,
+    this.link,
   });
 
   String message;
   Data data;
   int code;
+  String link;
 
   factory ServiceProviderDetailsModel.fromJson(Map<String, dynamic> json) => ServiceProviderDetailsModel(
-    message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    code: json["code"] == null ? null : json["code"],
+    message: json["message"],
+    data: Data.fromJson(json["data"]),
+    code: json["code"],
+    link: json["link"],
   );
 
   Map<String, dynamic> toJson() => {
-    "message": message == null ? null : message,
-    "data": data == null ? null : data.toJson(),
-    "code": code == null ? null : code,
+    "message": message,
+    "data": data.toJson(),
+    "code": code,
+    "link": link,
   };
 }
 
@@ -48,10 +52,15 @@ class Data {
     this.description,
     this.photo,
     this.rate,
+    this.facebook,
+    this.instagram,
+    this.youtube,
+    this.linkedIn,
+    this.telegram,
+    this.canRate,
     this.city,
     this.network,
     this.businessType,
-    this.canRate
   });
 
   int id;
@@ -68,50 +77,66 @@ class Data {
   String description;
   String photo;
   double rate;
+  String facebook;
+  String instagram;
+  String youtube;
+  String linkedIn;
+  String telegram;
   int canRate;
   BusinessType city;
   BusinessType network;
   BusinessType businessType;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["id"] == null ? null : json["id"],
-    cityId: json["city_id"] == null ? null : json["city_id"],
-    networkId: json["network_id"] == null ? null : json["network_id"],
-    businessTypeId: json["business_type_id"] == null ? null : json["business_type_id"],
-    name: json["name"] == null ? null : json["name"],
-    businessName: json["business_name"] == null ? null : json["business_name"],
-    email: json["email"] == null ? null : json["email"],
-    phoneNumber: json["phone_number"] == null ? null : json["phone_number"],
-    location: json["location"] == null ? null : json["location"],
-    longitude: json["longitude"] == null ? null : json["longitude"],
-    latitude: json["latitude"] == null ? null : json["latitude"],
-    description: json["description"] == null ? null : json["description"],
-    photo: json["photo"] == null ? null : json["photo"],
-    rate: json["rate"] == null ? null : json["rate"].toDouble(),
-    canRate: json["can_rate"] == null ? null : json["can_rate"],
-    city: json["city"] == null ? null : BusinessType.fromJson(json["city"]),
-    network: json["network"] == null ? null : BusinessType.fromJson(json["network"]),
-    businessType: json["business_type"] == null ? null : BusinessType.fromJson(json["business_type"]),
+    id: json["id"],
+    cityId: json["city_id"],
+    networkId: json["network_id"],
+    businessTypeId: json["business_type_id"],
+    name: json["name"],
+    businessName: json["business_name"],
+    email: json["email"],
+    phoneNumber: json["phone_number"],
+    location: json["location"],
+    longitude: json["longitude"],
+    latitude: json["latitude"],
+    description: json["description"],
+    photo: json["photo"],
+    rate: json["rate"].toDouble(),
+    facebook: json["facebook"],
+    instagram: json["instagram"],
+    youtube: json["youtube"],
+    linkedIn: json["linkedIn"],
+    telegram: json["telegram"],
+    canRate: json["can_rate"],
+    city: BusinessType.fromJson(json["city"]),
+    network: BusinessType.fromJson(json["network"]),
+    businessType: BusinessType.fromJson(json["business_type"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id == null ? null : id,
-    "city_id": cityId == null ? null : cityId,
-    "network_id": networkId == null ? null : networkId,
-    "business_type_id": businessTypeId == null ? null : businessTypeId,
-    "name": name == null ? null : name,
-    "business_name": businessName == null ? null : businessName,
-    "email": email == null ? null : email,
-    "phone_number": phoneNumber == null ? null : phoneNumber,
-    "location": location == null ? null : location,
-    "longitude": longitude == null ? null : longitude,
-    "latitude": latitude == null ? null : latitude,
-    "description": description == null ? null : description,
-    "photo": photo == null ? null : photo,
-    "rate": rate == null ? null : rate,
-    "city": city == null ? null : city.toJson(),
-    "network": network == null ? null : network.toJson(),
-    "business_type": businessType == null ? null : businessType.toJson(),
+    "id": id,
+    "city_id": cityId,
+    "network_id": networkId,
+    "business_type_id": businessTypeId,
+    "name": name,
+    "business_name": businessName,
+    "email": email,
+    "phone_number": phoneNumber,
+    "location": location,
+    "longitude": longitude,
+    "latitude": latitude,
+    "description": description,
+    "photo": photo,
+    "rate": rate,
+    "facebook": facebook,
+    "instagram": instagram,
+    "youtube": youtube,
+    "linkedIn": linkedIn,
+    "telegram": telegram,
+    "can_rate": canRate,
+    "city": city.toJson(),
+    "network": network.toJson(),
+    "business_type": businessType.toJson(),
   };
 }
 
@@ -125,12 +150,12 @@ class BusinessType {
   String name;
 
   factory BusinessType.fromJson(Map<String, dynamic> json) => BusinessType(
-    id: json["id"] == null ? null : json["id"],
-    name: json["name"] == null ? null : json["name"],
+    id: json["id"],
+    name: json["name"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id == null ? null : id,
-    "name": name == null ? null : name,
+    "id": id,
+    "name": name,
   };
 }

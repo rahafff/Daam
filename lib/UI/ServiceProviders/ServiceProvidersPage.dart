@@ -2,10 +2,12 @@ import 'package:first_card_project/Bloc/ServiceProvidersBloc.dart';
 import 'package:first_card_project/Helper/AppColors.dart';
 import 'package:first_card_project/Helper/AppTextStyle.dart';
 import 'package:first_card_project/Localization/AppLocal.dart';
+import 'package:first_card_project/Models/pageModel.dart';
 import 'package:first_card_project/Models/serviceProvidersModel.dart';
 import 'package:first_card_project/UI/BaseUI.dart';
 import 'package:first_card_project/Widget/HelperWigets.dart';
 import 'package:first_card_project/Widget/ServiceProviderCard.dart';
+import 'package:first_card_project/Widget/page_number.dart';
 import 'package:flutter/material.dart';
 
 class ServiceProvidersPage extends BaseUI<ServiceProvidersBloc> {
@@ -28,6 +30,8 @@ class _ServiceProvidersPageState extends BaseUIState<ServiceProvidersPage> {
   String cityId , cityName;
 
   String businessId , businessName;
+  int counter;
+  List<PageModel> pages;
   @override
   Widget buildUI(BuildContext context) {
     return Column(
@@ -65,6 +69,7 @@ class _ServiceProvidersPageState extends BaseUIState<ServiceProvidersPage> {
                     },optional: true,refresh: true);
                   }
               ),
+
             ],
           ),
         ),
@@ -75,28 +80,76 @@ class _ServiceProvidersPageState extends BaseUIState<ServiceProvidersPage> {
                   if (snapshot.hasData && snapshot.data.data == null) {
                     return helper.empty(context);
                   }
-                  if (snapshot.hasData)
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                          if(snapshot.data.data.length == index)
-                    {
-                      if(widget.bloc.canLoad)
-                      {
-                        widget.bloc.loadMore( cityId: cityId??"", businessTypeId: businessId??"", networkId: widget.networkId);
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      else return Container();
+                  if (snapshot.hasData) {
+                   if(pages.isEmpty)
+                    for (int i = 1; i <= snapshot.data.dataCount; i++) {
+                      if(i == 1 )
+                        pages.add(PageModel(isSelected: true,number: i.toString()));
+                    else  pages.add(PageModel(isSelected: false,number: i.toString()));
                     }
-                        return ServiceProviderCard(
-                          data: snapshot.data.data[index],
-                          bloc: widget.bloc,
-                        );
-                      },
-                      itemCount: snapshot.data.data.length + 1,
-                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              //       if(snapshot.data.data.length == index)
+                              // {
+                              //   if(widget.bloc.canLoad)
+                              //   {
+                              //     counter = counter+1;
+                              //     widget.bloc.loadMore( cityId: cityId??"", businessTypeId: businessId??"", networkId: widget.networkId);
+                              //     return Center(
+                              //       child: CircularProgressIndicator(),
+                              //     );
+                              //   }
+                              //   else return Container();
+                              // }
+                              return ServiceProviderCard(
+                                data: snapshot.data.data[index],
+                                bloc: widget.bloc,
+                              );
+                            },
+                            itemCount: snapshot.data.data.length,
+                            padding: const EdgeInsets.only(top: 16, bottom: 16),
+                            shrinkWrap: true,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('رقم الصفحة: ', style: AppTextStyle
+                                  .normalWhite,),),
+                            Expanded(
+                              child: Container(
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return PageNumber(
+                                        model: pages[index],
+                                        changePage: () {
+                                          setState(() {
+                                            pages.forEach((element) {
+                                              element.isSelected = false;
+                                            });
+                                          });
+                                          pages[index].isSelected = true;
+                                          widget.bloc.getServices(
+                                              offset: index * 10,
+                                              cityId: cityId ?? "",
+                                              businessTypeId: businessId ?? "",
+                                              networkId: widget.networkId);
+                                        });}
+                                  , itemCount: pages.length,
+                                  scrollDirection: Axis.horizontal,
+                                ),
+                                height: 48,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     );
+                  }
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -106,12 +159,15 @@ class _ServiceProvidersPageState extends BaseUIState<ServiceProvidersPage> {
   }
 
   getData(){
-    widget.bloc.getServices(
+    widget.bloc.getServices(offset: 0,
         cityId: cityId??"", businessTypeId: businessId??"", networkId: widget.networkId);
   }
   @override
   void init() {
+    counter = 1;
+    pages = [];
     getData();
+
   }
 
   filterWidget({label,selectedId , selectedName , onChanged,onTap}) {

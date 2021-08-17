@@ -29,25 +29,26 @@ class SocialLinksWidget extends StatelessWidget {
         });
   }
 
-  Widget socialItem({String name, String links}) {
-    return InkWell(
-      onTap: () {
-        Utils.lunchURL(name == 'mail'?"mailto:$links":name == 'apple'?"tel:$links":links);
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              color: name == 'facebook' || name == 'mail'?AppColors.white:name == 'apple'?AppColors.green:Colors.transparent,
-              borderRadius: BorderRadius.circular(5)
-          ),
-          child: SvgPicture.asset(
-            "assets/images/$name.svg",
-            height: 20,
-            width: 20,
-          ),
+
+}
+Widget socialItem({String name, String links}) {
+  return InkWell(
+    onTap: () {
+      Utils.lunchURL(name == 'mail'?"mailto:$links":name == 'apple'?"tel:$links":links);
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: name == 'facebook' || name == 'mail'?AppColors.white:name == 'apple'?AppColors.green:Colors.transparent,
+            borderRadius: BorderRadius.circular(5)
+        ),
+        child: SvgPicture.asset(
+          "assets/images/$name.svg",
+          height: 20,
+          width: 20,
         ),
       ),
-    );
-  }
+    ),
+  );
 }

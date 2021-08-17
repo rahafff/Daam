@@ -41,6 +41,7 @@ class Data {
     this.price,
     this.numberOfCoupons,
     this.expireAt,
+    this.createAt,
     this.card,
   });
 
@@ -50,8 +51,10 @@ class Data {
   int salesCenterId;
   String price;
   String numberOfCoupons;
-  DateTime expireAt;
+  // DateTime expireAt;
   SelectedCard card;
+  String expireAt;
+  String createAt;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"] == null ? null : json["id"],
@@ -59,8 +62,10 @@ class Data {
     cardId: json["card_id"] == null ? null : json["card_id"],
     salesCenterId: json["sales_center_id"] == null ? null : json["sales_center_id"],
     price: json["price"] == null ? null : json["price"],
+    expireAt: json["card_expire_at"] == null ? null : json["card_expire_at"],
+    createAt: json["card_created_at"] == null ? null : json["card_created_at"],
     numberOfCoupons: json["number_of_coupons"] == null ? null : json["number_of_coupons"],
-    expireAt: json["expire_at"] == null ? null : DateTime.parse(json["expire_at"]),
+    // expireAt: json["expire_at"] == null ? null : DateTime.parse(json["expire_at"]),
     card: json["card"] == null ? null : SelectedCard.fromJson(json["card"]),
   );
 
@@ -71,7 +76,7 @@ class Data {
     "sales_center_id": salesCenterId == null ? null : salesCenterId,
     "price": price == null ? null : price,
     "number_of_coupons": numberOfCoupons == null ? null : numberOfCoupons,
-    "expire_at": expireAt == null ? null : expireAt.toIso8601String(),
+    "expire_at": expireAt == null ? null : expireAt,
     "card": card == null ? null : card.toJson(),
   };
 }

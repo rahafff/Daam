@@ -13,16 +13,20 @@ class CouponsModel {
     this.message,
     this.data,
     this.code,
+    this.dataCount
   });
 
   String message;
   List<Coupon> data;
   int code;
+  int dataCount;
 
   factory CouponsModel.fromJson(Map<String, dynamic> json) => CouponsModel(
     message: json["message"] == null ? null : json["message"],
     data: json["data"] == null ? null : List<Coupon>.from(json["data"].map((x) => Coupon.fromJson(x))),
     code: json["code"] == null ? null : json["code"],
+      dataCount: json['data_count'] == null ? null : json["data_count"]
+
   );
 
   Map<String, dynamic> toJson() => {

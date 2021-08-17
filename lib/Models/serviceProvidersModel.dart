@@ -13,16 +13,19 @@ class ServiceProvidersModel {
     this.message,
     this.data,
     this.code,
+    this.dataCount
   });
 
   String message;
   List<ServiceProvider> data;
   int code;
+  int dataCount;
 
   factory ServiceProvidersModel.fromJson(Map<String, dynamic> json) => ServiceProvidersModel(
     message: json["message"] == null ? null : json["message"],
     data: json["data"] == null ? null : List<ServiceProvider>.from(json["data"].map((x) => ServiceProvider.fromJson(x))),
     code: json["code"] == null ? null : json["code"],
+    dataCount: json['data_count'] == null ? null : json["data_count"]
   );
 
   Map<String, dynamic> toJson() => {

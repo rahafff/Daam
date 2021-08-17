@@ -1,7 +1,9 @@
 import 'package:first_card_project/Bloc/BaseBloc.dart';
+import 'package:first_card_project/Helper/AppConstant.dart';
 import 'package:first_card_project/Models/CouponHistoryModel.dart';
 import 'package:first_card_project/Models/GeneralRespones.dart';
 import 'package:first_card_project/Models/History.dart';
+import 'package:first_card_project/Models/Home/ImageSlider.dart';
 import 'package:first_card_project/Models/NearestServiceProvidersModel.dart';
 import 'package:first_card_project/Models/ServiceProviderDetailsModel.dart';
 import 'package:first_card_project/Models/serviceProvidersModel.dart';
@@ -35,6 +37,9 @@ class ServiceProvidersBloc extends BaseBloc{
   PublishSubject<NearestServiceProvidersModel> _nearestServiceProvidersController = PublishSubject<NearestServiceProvidersModel>();
   Stream<NearestServiceProvidersModel> get nearestServiceProvidersStream => _nearestServiceProvidersController.stream;
 
+  // ignore: close_sinks
+  BehaviorSubject<ImageSliderModel> _imageSliderController = BehaviorSubject<ImageSliderModel>();
+  Stream<ImageSliderModel>  get  imageSliderStream=> _imageSliderController.stream;
 
   ServiceProvidersModel _data;
 
@@ -43,10 +48,10 @@ class ServiceProvidersBloc extends BaseBloc{
   int offset = 0;
   bool canLoad = true;
 
-  getServices({cityId, networkId, businessTypeId}){
+  getServices({offset ,cityId, networkId, businessTypeId}){
     _serviceProviderController.sink.add(null);
-    apiProvider.getServiceProviders(0, limit, cityId, networkId, businessTypeId).then((value) {
-      offset = 0;
+    apiProvider.getServiceProviders(offset, limit, cityId, networkId, businessTypeId).then((value) {
+      // offset = 0;
       _data = value;
       if(_data.data != null && _data.data.isNotEmpty) canLoad = true;
       else canLoad = false;
@@ -140,6 +145,15 @@ class ServiceProvidersBloc extends BaseBloc{
       _searchServiceProviderController.sink.add(data);
     }, (error) {
       isSearching = false;
+    });
+  }
+
+  getImageSlider(String providerID){
+    apiProvider.getImagesProvider(providerID).then((value) {
+      AppConstant.IMAGE_URL = value.link??AppConstant.IMAGE_URL;
+      _imageSliderController.sink.add(value);
+    } , onError: (error){
+
     });
   }
 }

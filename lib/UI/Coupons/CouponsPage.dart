@@ -4,8 +4,10 @@ import 'package:first_card_project/Helper/AppColors.dart';
 import 'package:first_card_project/Helper/AppTextStyle.dart';
 import 'package:first_card_project/Localization/AppLocal.dart';
 import 'package:first_card_project/Models/CouponsModel.dart';
+import 'package:first_card_project/Models/pageModel.dart';
 import 'package:first_card_project/UI/Coupons/CouponCard.dart';
 import 'package:first_card_project/Widget/HelperWigets.dart';
+import 'package:first_card_project/Widget/page_number.dart';
 import 'package:flutter/material.dart';
 
 import '../BaseUI.dart';
@@ -31,6 +33,8 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
   String businessId , businessName;
 
   String reservedId , reservedName;
+  int counter;
+  List<PageModel> pages;
   @override
   Widget buildUI(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -86,27 +90,72 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
                     {
                       return helper.empty(context);
                     }
-                    if(snapshot.hasData)
-                      return ListView.builder(
-                        itemBuilder: (context, index) {
-                          if(snapshot.data.data.length == index)
-                          {
-                            if(widget.bloc.canLoad)
-                            {
-                              widget.bloc.loadMore(cityId: cityId??"", businessTypeId: businessId??"",reserved: reservedId??"" ,networkId: widget.networkId,serviceProviderId: "");
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            else return Container();
-                          }
-                          return CouponCard(
-                            data: snapshot.data.data[index],
-                          );
-                        return Container();
-                        },
-                        itemCount: snapshot.data.data.length+1,padding: const EdgeInsets.only(top: 16 , bottom: 16),
+                    if(snapshot.hasData){
+                      if(pages.isEmpty)
+                        for (int i = 1; i <= snapshot.data.dataCount; i++) {
+                          if(i == 1 )
+                            pages.add(PageModel(isSelected: true,number: i.toString()));
+                          else  pages.add(PageModel(isSelected: false,number: i.toString()));
+                        }
+                      return Column(
+                        children: [
+
+                          Expanded(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                // if(snapshot.data.data.length == index)
+                                // {
+                                //   if(widget.bloc.canLoad)
+                                //   {
+                                //     widget.bloc.loadMore(cityId: cityId??"", businessTypeId: businessId??"",reserved: reservedId??"" ,networkId: widget.networkId,serviceProviderId: "");
+                                //     return Center(
+                                //       child: CircularProgressIndicator(),
+                                //     );
+                                //   }
+                                //   else return Container();
+                                // }
+                                return CouponCard(
+                                  data: snapshot.data.data[index],
+                                );
+                                return Container();
+                              },
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.data.length,padding: const EdgeInsets.only(top: 16 , bottom: 16),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('رقم الصفحة: ', style: AppTextStyle
+                                    .normalWhite,),),
+                              Expanded(
+                                child: Container(
+                                  child: ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      return PageNumber(
+                                          model: pages[index],
+                                          changePage: () {
+                                            setState(() {
+                                              pages.forEach((element) {
+                                                element.isSelected = false;
+                                              });
+                                            });
+                                            pages[index].isSelected = true;
+                                            widget.bloc.getCoupons(cityId: cityId??"", businessTypeId: businessId??"",reserved: reservedId??"" ,networkId: widget.networkId,serviceProviderId: "",offset: index *10);
+
+                                          });}
+                                    , itemCount: pages.length,
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                  height: 48,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       );
+                    }
                     return Center(
                       child: CircularProgressIndicator(),
                     );
@@ -120,11 +169,13 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
 
   @override
   void init() {
+    pages = [];
     getData();
   }
 
   getData(){
-    widget.bloc.getCoupons(cityId: cityId??"", businessTypeId: businessId??"",reserved: reservedId??"" ,networkId: widget.networkId,serviceProviderId: "");
+    counter = 1;
+    widget.bloc.getCoupons(cityId: cityId??"", businessTypeId: businessId??"",reserved: reservedId??"" ,networkId: widget.networkId,serviceProviderId: "",offset: 0);
   }
   filterWidget({label,selectedId , selectedName , onChanged,onTap}) {
     return GestureDetector(

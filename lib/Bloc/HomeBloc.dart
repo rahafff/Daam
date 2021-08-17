@@ -40,7 +40,7 @@ class HomeBloc extends BaseBloc{
     apiProvider.getUserActiveCard().then((value) {
       _userCardController.sink.add(value);
     }).catchError((error){
-      _userCardController.sink.add(UserActiveCardModel(code: -1));
+      _userCardController.sink.addError("error");
     });
   }
 

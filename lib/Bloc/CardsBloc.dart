@@ -35,6 +35,7 @@ class CardsBloc extends BaseBloc{
     apiProvider.activeCard(code, cardId).then((value) {
       onData(value);
     }).catchError((error){
+      print("error is" + error.toString());
       if(error is AppMsg)
       onError(error.data["message"]);
     });
@@ -74,6 +75,15 @@ class CardsBloc extends BaseBloc{
     fetchData(apiProvider.getCardDetails(cardId), (data) {
       _cardDetailsModel.sink.add(data);
     }, (error) { });
+  }
+  addRate({serviceProviderId, rate,onData,onError}){
+    apiProvider.addRate(serviceProviderId, rate).then((value) {
+      if(value.code == 200)
+        onData();
+      else onError(value.message);
+    }).catchError((error){
+      onError("");
+    });
   }
 
   @override

@@ -1,8 +1,11 @@
 //import 'package:rxdart/rxdart.dart';
+import 'dart:convert';
+
 import 'package:first_card_project/Models/BusinessTypeModel.dart';
 import 'package:first_card_project/Models/CitiesModel.dart';
 import 'package:first_card_project/Models/NetworksModel.dart';
 import 'package:first_card_project/Models/SocialLinksModel.dart';
+import 'package:first_card_project/Models/rateResponse.dart';
 import 'package:first_card_project/Models/serviceProvidersModel.dart';
 import 'package:first_card_project/Resources/ApiProvider.dart';
 import 'package:first_card_project/UI/Home.dart';
@@ -40,6 +43,8 @@ class SingletonBloc {
   BehaviorSubject<SocialLinksModel> _socialController = BehaviorSubject<SocialLinksModel>();
   Stream<SocialLinksModel> get socialStream => _socialController.stream;
 
+  BehaviorSubject<RateResponse> _reController = BehaviorSubject<RateResponse>();
+  Stream<RateResponse> get reStream => _reController.stream;
 
   GlobalKey<NavigatorState> navigatorKey =
   new GlobalKey<NavigatorState>();
@@ -113,23 +118,39 @@ class SingletonBloc {
     if(dataStore.user != null && !dataStore.user.data.isProvider)
       apiProvider.changeFirebaseToken(token);
   }
+  updateTokenProvider(token){
+    if(dataStore.user != null && dataStore.user.data.isProvider)
+      apiProvider.changeFirebaseProviderToken(token);
+  }
 
-
-  scanCode(serialNumber, value , onData , Function(String)onError){
+  scanCode(serialNumber, value , Function(RateResponse) onData , Function(String)onError){
     apiProvider.scanCode(serialNumber, value).
     then((value){
-      if(value.code >0)
-      onData();
+      print("value in scand" + value.code.toString());
+      if(value.code > 0){
+        print('success');
+        onData(RateResponse.fromJson(value.data));
+      }
       else onError(value.message);
     }).catchError((error){
+      print(error);
       onError(null);
     });
   }
-  scanCouponCode(serialNumber, value , onData ,Function(String) onError){
-    apiProvider.scanCouponCode(serialNumber, value).
+  addRate({serviceProviderId, rate,onData,onError}){
+    apiProvider.addRate(serviceProviderId, rate).then((value) {
+      if(value.code == 200)
+        onData();
+      else onError(value.message);
+    }).catchError((error){
+      onError("");
+    });
+  }
+  scanCouponCode(serialNumber,couponID, value ,Function(RateResponse) onData ,Function(String) onError){
+    apiProvider.scanCouponCode(serialNumber,couponID, value).
     then((value){
       if(value.code >0)
-      onData();
+      onData(RateResponse.fromJson(value.data));
       else onError(value.message);
     }).catchError((error){
       onError(null);

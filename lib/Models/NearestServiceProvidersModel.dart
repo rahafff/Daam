@@ -38,18 +38,21 @@ class Datum {
     this.businessName,
     this.latitude,
     this.longitude,
+    this.networkId
   });
 
   int id;
   String businessName;
   String latitude;
   String longitude;
+  int networkId;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"] == null ? null : json["id"],
     businessName: json["business_name"] == null ? null : json["business_name"],
     latitude: json["latitude"] == null ? null : json["latitude"],
     longitude: json["longitude"] == null ? null : json["longitude"],
+    networkId: json["network_id"] == null ? null : json["network_id"],
   );
 
   Map<String, dynamic> toJson() => {

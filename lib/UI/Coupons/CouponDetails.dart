@@ -175,37 +175,58 @@ class _CouponDetailsState extends BaseUIState<CouponDetails> {
                         ),
                       ):Container(
                             child: Center(
-                              child: CustomAppButton(
-                                child: Text(
-                                  AppLocalizations.of(context).trans("reserveCoupon"),
-                                  style: AppTextStyle.mediumWhiteBold,
-                                ),
-                                color: AppColors.cyan,
-                                onTap: () {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  widget.bloc.reserveCoupon(
-                                    couponId: widget.couponId,
-                                    onData: (val){
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomAppButton(
+                                    child: Text(
+                                      AppLocalizations.of(context).trans("reserveCoupon"),
+                                      style: AppTextStyle.mediumWhiteBold,
+                                    ),
+                                    color: AppColors.cyan,
+                                    onTap: () {
                                       setState(() {
-                                        isLoading = false;
+                                        isLoading = true;
                                       });
-                                      if(val.code > 0){
-                                        snapshot.data.data.reserved = 1;
-                                      }
-                                      else{
-                                        showErrorDialog(context, val?.message);
-                                      }
-                                      widget.bloc.update(snapshot.data);
+                                      widget.bloc.reserveCoupon(
+                                        couponId: widget.couponId,
+                                        onData: (val){
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          if(val.code > 0){
+                                            snapshot.data.data.reserved = 1;
+                                          }
+                                          else{
+                                            showErrorDialog(context, val?.message);
+                                          }
+                                          widget.bloc.update(snapshot.data);
 
-                                    }
-                                  );
-                                },
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 26, vertical: 8),
-                                borderRadius: 20,
-                                elevation: 2,
+                                        }
+                                      );
+                                    },
+                                    padding:
+                                    EdgeInsets.symmetric(horizontal: 26, vertical: 8),
+                                    borderRadius: 20,
+                                    elevation: 2,
+                                  ),
+                                  CustomAppButton(
+                                    child: Text(
+                                      AppLocalizations.of(context).trans("serviceProvider"),
+                                      style: AppTextStyle.mediumWhiteBold,
+                                    ),
+                                    color: AppColors.cyan,
+                                    onTap: () {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                        return ServiceProviderDetails(providerId: snapshot.data.data.serviceProvider.id.toString(),bloc:ServiceProvidersBloc());
+                                      }));
+                                    },
+                                    padding:
+                                    EdgeInsets.symmetric(horizontal: 26, vertical: 8),
+                                    borderRadius: 20,
+                                    elevation: 2,
+                                  ),
+                                ],
                               ),
                             ),
                           )

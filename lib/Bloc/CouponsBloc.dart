@@ -24,11 +24,11 @@ class CouponsBloc extends BaseBloc{
   int offset = 0;
   bool canLoad = true;
   CouponsModel _data;
-  getCoupons({cityId, networkId, businessTypeId,reserved,serviceProviderId}) async {
+  getCoupons({cityId, networkId, businessTypeId,reserved,offset,serviceProviderId}) async {
 
-    apiProvider.getCoupons(cityId, networkId, businessTypeId,reserved,0,serviceProviderId).then((value) {
+    apiProvider.getCoupons(cityId, networkId, businessTypeId,reserved,offset,serviceProviderId).then((value) {
 
-      offset = 0;
+      // offset = 0;
       _data = value;
       if(_data.data != null && _data.data.isNotEmpty) canLoad = true;
       else canLoad = false;

@@ -40,8 +40,10 @@ class AuthBloc extends BaseBloc{
       onData(value);
       if(value.code == 200){
         dataStore.setUser(value).then((_) {
-          //if(!value.data.isProvider)
-            genBloc.updateToken(notificationHelper.token);
+          if(value.data.isProvider)
+            genBloc.updateTokenProvider(notificationHelper.token);
+
+          else genBloc.updateToken(notificationHelper.token);
         });
       }
     }, onError:(error){

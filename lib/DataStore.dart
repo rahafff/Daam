@@ -42,6 +42,15 @@ class DataStore {
     print(_user.data.apiToken);*/
     return _user;
   }
+  Future<bool> getFirstTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool val = prefs.getBool('isFirst');
+    return val;
+  }
+  Future<void> setFirstTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+     prefs.setBool('isFirst', false);
+  }
 }
 
 final dataStore = DataStore();

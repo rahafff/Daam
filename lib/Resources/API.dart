@@ -2,9 +2,9 @@ class API{
 
 //http://daam.fabrosplus.com/
  // static String baseUrl = 'http://daamcard.fabrosplus.xyz/api/';
-  //static String baseUrl = 'http://daam.fabrosplus.com/api/';
-  //static String baseUrl = 'http://daamcard.com/api/';
-  static String baseUrl = 'http://daamcard.sy/api/';
+  static String baseUrl = 'https://daam.fabrosplus.com/api/';
+  // static String baseUrl = 'http://daamcard.com/api/';
+  //static String baseUrl = 'http://daamcard.sy/api/';
 
   static String cities = '${baseUrl}cities';
 
@@ -14,6 +14,7 @@ class API{
   static String login = '${baseUrl}login';
 
   static String slider = '${baseUrl}sliders';
+  static String providerSlider = '${baseUrl}serviceProviderSliders';
 
 
   static String networks = '${baseUrl}networks';
@@ -31,6 +32,7 @@ class API{
   static String businessType = '${baseUrl}businessType';
   static String coupons = '${baseUrl}coupons';
   static String changeFirebaseToken = '${baseUrl}changeFirebaseToken';
+  static String changeFirebaseProviderToken = '${baseUrl}changeServiceProviderFirebaseToken';
 
 
   static String newsDetails = '${baseUrl}newsDetails';
@@ -70,6 +72,7 @@ class API{
 
 
 
+  static String notification = '${baseUrl}getNotifications';
 
 
 

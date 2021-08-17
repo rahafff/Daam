@@ -111,5 +111,19 @@
   "noResults": "Sorry, there is no results !",
   "showCoupons": "Show coupons",
   "expiryDate": "Expiry date",
-  "noCoupons": "Sorry, there is no coupons"
+  "noCoupons": "Sorry, there is no coupons",
+  "notification": "notification",
+  "direction": "Direction",
+  "activeDate": "active date",
+  "expireDate": "expire date",
+  "scan": "scan service provider QR",
+  "rateThis": "Rate this app",
+  "rateContent": "if you like app,please take a little bit of your time to review it",
+  "noThanks": "NO THANKS",
+  "showQR": "Show QR code",
+  "or": "OR",
+  "enterCode": "Enter the code direct",
+  "enterFiled": "Please input value and code",
+  "showAlert": "Please display this interface on the center to get the discount"
+
 }

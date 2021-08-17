@@ -54,7 +54,8 @@ class Data {
     this.photo,
     this.rate,
     this.isProvider,
-    this.businessNameEn
+    this.businessNameEn,
+    this.qrCode
   });
 
   int id;
@@ -80,6 +81,7 @@ class Data {
   String description;
   String photo;
   String rate;
+  String qrCode;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"] == null ? null : json["id"],
@@ -104,6 +106,7 @@ class Data {
     description: json["description"] == null ? null : json["description"],
     photo: json["photo"] == null ? null : json["photo"],
     rate: json["rate"] == null ? null : json["rate"],
+    qrCode: json["qr_code"] == null ? null : json["qr_code"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -122,6 +125,7 @@ class Data {
     "business_type_id":businessTypeId == null ? null : businessTypeId,
     "business_name":businessName == null ? null : businessName,
     "location":location == null ? null : location,
-    "photo":photo == null ? null : photo
+    "photo":photo == null ? null : photo,
+    "qr_code":qrCode == null ? null : qrCode,
   };
 }
