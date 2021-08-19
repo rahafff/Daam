@@ -1,5 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:barcode_scan/platform_wrapper.dart';
+import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:first_card_project/Bloc/CardsBloc.dart';
 import 'package:first_card_project/Bloc/GeneralBloc.dart';

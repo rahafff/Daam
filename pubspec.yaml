@@ -51,7 +51,7 @@ dependencies:
   smooth_star_rating: ^1.1.1
   #flutter_barcode_scanner: ^1.0.1
   permission_handler: any
-  barcode_scan: ^3.0.1
+  barcode_scan2: ^4.1.4
   geolocator: ^6.1.9
   date_format: ^1.0.8
   auto_size_text: ^2.1.0

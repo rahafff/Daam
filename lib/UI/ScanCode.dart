@@ -11,7 +11,7 @@ import 'package:first_card_project/Widget/CustomAppButton.dart';
 import 'package:first_card_project/Widget/HelperWigets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:barcode_scan/platform_wrapper.dart';
+import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
