@@ -37,6 +37,7 @@ class _UseCardState extends BaseUIState<UseCard> {
   TextEditingController _value = TextEditingController();
   TextEditingController _qr = TextEditingController();
   bool isLoading;
+  FocusNode node;
 
   @override
   AppBar buildAppBar() {
@@ -136,6 +137,11 @@ class _UseCardState extends BaseUIState<UseCard> {
           SizedBox(
             height: 50,
           ),
+          Visibility(visible: isLoading, child: CircularProgressIndicator()),
+
+          SizedBox(
+            height: 20,
+          ),
           Text(
             AppLocalizations.of(context).trans("scanQR"),
             style: AppTextStyle.largeWhiteBold,
@@ -169,15 +175,15 @@ class _UseCardState extends BaseUIState<UseCard> {
                               double rate =response.rate;
                               return AlertDialog(
                                 title: Text(AppLocalizations.of(context)
-                                    .trans("rate") +
-                                    " " +
-                                    response.name),
+                                    .trans("showAlert")),
                                 content: SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
+                                      Text(AppLocalizations.of(context)
+                                          .trans("discountDate")+': ' + DateTime.now().toString().split('.').first),
                                       Html(data: response.description),
                                       SizedBox(
                                         height: 8,
@@ -279,124 +285,145 @@ class _UseCardState extends BaseUIState<UseCard> {
           SizedBox(height: 10,),
           Text( AppLocalizations.of(context)
               .trans("enterCode"),style: AppTextStyle.mediumWhite,),
-          Row(
-            children: [
-              Expanded(
-                child: helper.getTextField(_qr, false, null, null,
-                    AppLocalizations.of(context).trans("enterCode"),
-                    inputType: TextInputType.text),
-              ),
-              TextButton(onPressed: (){
-                if (Utils.isTextEmpty(_value) || Utils.isTextEmpty(_qr) ) {
-                  showErrorDialog(context,
-                      AppLocalizations.of(context).trans("enterFiled"));
-                  return;
-                }
-                setState(() {
-                  isLoading = true;
-                  if (_qr.text != null && _qr.text.isNotEmpty) {
-                    genBloc.scanCode(_qr.text, _value.text, (response) {
-                      setState(() {
-                        print('here');
-                        print(response.name);
-                        isLoading = false;
-                      });
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            double rate =response.rate;
-                            return AlertDialog(
-                              title: Text(AppLocalizations.of(context)
-                                  .trans("showAlert")),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Html(data: response.description),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Directionality(
-                                      textDirection: TextDirection.ltr,
-                                      child: SmoothStarRating(
-                                        starCount: 5,
-                                        rating: 0,
-                                        //allowHalfRating: false,
-                                        color: AppColors.orange,
-                                        borderColor: AppColors.orange,
-                                        onRated: (value) {
-                                          rate = value;
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    CustomAppButton(
-                                      child: Text(
-                                        AppLocalizations.of(context)
-                                            .trans("rate"),
-                                        style: AppTextStyle.mediumWhiteBold,
-                                      ),
-                                      color: AppColors.cyan,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
-                                      borderRadius: 20,
-                                      elevation: 2,
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                        genBloc.addRate(
-                                            serviceProviderId:
-                                            _qr.text.toString(),
-                                            rate: rate.toString(),
-                                            onData: () {
-                                              showErrorDialog(
-                                                  context,
-                                                  AppLocalizations.of(context)
-                                                      .trans("ratedSuccessfully"),
-                                                  isError: false);
-                                              // snapshot.data.data.rate = res;
 
-                                            },
-                                            onError: (String e) {
-                                              showErrorDialog(
-                                                  context,
-                                                  e.isEmpty
-                                                      ? AppLocalizations.of(context)
-                                                      .trans("wrong")
-                                                      : e,
-                                                  isError: true);
-                                            });
-                                      },
-                                    )
-                                  ],
+          // helper.getTextField(_qr, false, null, null,
+          //     AppLocalizations.of(context).trans("enterCode"),
+          //     inputType: TextInputType.text),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                          color: AppColors.black.withOpacity(0.1),
+                          blurRadius: 6,
+                          spreadRadius: 0.5,
+                          offset: Offset(0, 6))
+                    ]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: EditableText (
+                      controller: _qr, focusNode: node,
+                      cursorColor: AppColors.blue, style: AppTextStyle.mediumWhiteBold, backgroundCursorColor:  AppColors.blue,
+                ),
+                  )),
+          ),
+          TextButton(onPressed: (){
+            if (Utils.isTextEmpty(_value) || Utils.isTextEmpty(_qr) ) {
+              showErrorDialog(context,
+                  AppLocalizations.of(context).trans("enterFiled"));
+              return;
+            }
+            setState(() {
+              isLoading = true;
+              if (_qr.text != null && _qr.text.isNotEmpty) {
+                genBloc.scanCode(_qr.text, _value.text, (response) {
+                  setState(() {
+                    print('here');
+                    print(response.name);
+                    isLoading = false;
+                  });
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        double rate =response.rate;
+                        return AlertDialog(
+                          title: Text(AppLocalizations.of(context)
+                              .trans("showAlert")),
+                          content: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Html(data: response.description),
+                                SizedBox(
+                                  height: 8,
                                 ),
-                              ),
-                            );
-                          });
-                    }, (msg) {
-                      setState(() {
-                        _qr.text = null;
-                        isLoading = false;
-                      });
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: SmoothStarRating(
+                                    starCount: 5,
+                                    rating: 0,
+                                    //allowHalfRating: false,
+                                    color: AppColors.orange,
+                                    borderColor: AppColors.orange,
+                                    onRated: (value) {
+                                      rate = value;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                CustomAppButton(
+                                  child: Text(
+                                    AppLocalizations.of(context)
+                                        .trans("rate"),
+                                    style: AppTextStyle.mediumWhiteBold,
+                                  ),
+                                  color: AppColors.cyan,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  borderRadius: 20,
+                                  elevation: 2,
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    genBloc.addRate(
+                                        serviceProviderId:
+                                        _qr.text.toString(),
+                                        rate: rate.toString(),
+                                        onData: () {
+                                          showErrorDialog(
+                                              context,
+                                              AppLocalizations.of(context)
+                                                  .trans("ratedSuccessfully"),
+                                              isError: false);
+                                          // snapshot.data.data.rate = res;
 
-                      if (msg != null) {
-                        isLoading = false;
-                        showErrorDialog(context, msg);
-                      }
-                    });
+                                        },
+                                        onError: (String e) {
+                                          showErrorDialog(
+                                              context,
+                                              e.isEmpty
+                                                  ? AppLocalizations.of(context)
+                                                  .trans("wrong")
+                                                  : e,
+                                              isError: true);
+                                        });
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                }, (msg) {
+                  setState(() {
+                    _qr.text = null;
+                    isLoading = false;
+                  });
+
+                  if (msg != null) {
+                    isLoading = false;
+                    showErrorDialog(context, msg);
                   }
                 });
-              }, child:   Text( AppLocalizations.of(context)
-                  .trans("ok"),style: AppTextStyle.mediumWhite,),)
-            ],
-          ),
+              }
+            });
+          }, child:   Text( AppLocalizations.of(context)
+              .trans("ok"),style: AppTextStyle.mediumWhite,),),
+          // Row(
+          //   children: [
+          //
+          //
+          //   ],
+          // ),
           SizedBox(height: 10,),
 
 
-          Visibility(visible: isLoading, child: CircularProgressIndicator())
 
           // QrImage(
           //   data: "${snapshot.data.serialNumber}",
@@ -439,6 +466,7 @@ class _UseCardState extends BaseUIState<UseCard> {
   @override
   void init() {
     isLoading = false;
+    node =FocusNode();
     // widget.bloc.getSerialNumbers(cardId: widget.cardId);
   }
 }

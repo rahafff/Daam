@@ -91,11 +91,22 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
                       return helper.empty(context);
                     }
                     if(snapshot.hasData){
-                      if(pages.isEmpty)
-                        for (int i = 1; i <= snapshot.data.dataCount; i++) {
-                          if(i == 1 )
-                            pages.add(PageModel(isSelected: true,number: i.toString()));
-                          else  pages.add(PageModel(isSelected: false,number: i.toString()));
+                        if(pages.isEmpty){
+                          for (int i = 0; i <= snapshot.data.dataCount; i++) {
+                            if(i == 0 ){
+                              pages.add(PageModel(isSelected: true,number: (i+1).toString()));
+                            }
+                            else  pages.add(PageModel(isSelected: false,number: (i+1).toString()));
+                          }
+                        }
+                        else if (pages.length != snapshot.data.dataCount+1){
+                          pages = [];
+                          for (int i = 0; i <= snapshot.data.dataCount; i++) {
+                            if(i == 0 ){
+                              pages.add(PageModel(isSelected: true,number: (i+1).toString()));
+                            }
+                            else  pages.add(PageModel(isSelected: false,number: (i+1).toString()));
+                          }
                         }
                       return Column(
                         children: [

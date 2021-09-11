@@ -124,6 +124,7 @@
   "or": "OR",
   "enterCode": "Enter the code direct",
   "enterFiled": "Please input value and code",
-  "showAlert": "Please display this interface on the center to get the discount"
+  "showAlert": "Please display this interface on the center to get the discount",
+  "discountDate": "Card usage date"
 
 }

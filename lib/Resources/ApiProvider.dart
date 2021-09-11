@@ -368,7 +368,12 @@ class ApiProvider{
     Map<String,String> body = {
       "provider_id":providerId
     };
-    var response = await _loadData(ReqType.POST, API.serviceProviderDetails , body: body);
+    Map<String,String> header = {
+      "Accept": "application/json",
+      "language": dataStore.lang??'ar',
+      //"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWF4LmFwcHMuY29kZXJzZGMuY29tXC9hcGlcL3NvY2lhbExvZ2luIiwiaWF0IjoxNTg1NDIzNDc0LCJleHAiOjE1OTA2MDc0NzQsIm5iZiI6MTU4NTQyMzQ3NCwianRpIjoibENwQTBBbk1Ddk9BTk9EcCIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSIsInVzZXJfaWQiOjMsImVtYWlsIjoibW91YXouYWxraG9seS4xOTk1QGdtYWlsLmNvbSJ9.b_kNAZJZRaz34BWNut1XeMRbSv4MYpzSLhvjgAyMaKs"
+    };
+    var response = await _loadData(ReqType.POST, API.serviceProviderDetails , body: body, customHeader: header);
 
     return ServiceProviderDetailsModel.fromJson(response);
   }

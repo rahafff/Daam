@@ -168,7 +168,7 @@ class _ServiceProviderHistoryState extends BaseUIState<ServiceProviderHistory> {
               children: [
                 Text(AppLocalizations.of(context).trans("coupon")+" : " , style: AppTextStyle.mediumBlackBold,),
                 SizedBox(width: 8,),
-                Text(item.coupon.name , style: AppTextStyle.mediumBlack,)
+                Text(item.coupon.name??'' , style: AppTextStyle.mediumBlack,)
               ],
             ),
             SizedBox(height: 8,),
