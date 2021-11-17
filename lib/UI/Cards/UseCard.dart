@@ -33,12 +33,12 @@ class UseCard extends BaseUI<CardsBloc> {
       : super(bloc: CardsBloc());
 }
 
-class _UseCardState extends BaseUIState<UseCard> {
+class _UseCardState extends BaseUIState<UseCard> with TickerProviderStateMixin{
   TextEditingController _value = TextEditingController();
   TextEditingController _qr = TextEditingController();
   bool isLoading;
   FocusNode node;
-
+  AnimationController _resizableController;
   @override
   AppBar buildAppBar() {
     return helper.mainAppBar(
@@ -85,9 +85,7 @@ class _UseCardState extends BaseUIState<UseCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            dataStore.lang == "en"
-                                ? widget.card.nameEn ?? ""
-                                : widget.card.name,
+                                 widget.card.name,
                             style: AppTextStyle.largeWhiteBold,
                           ),
                         ],
@@ -174,8 +172,7 @@ class _UseCardState extends BaseUIState<UseCard> {
                             builder: (context) {
                               double rate =response.rate;
                               return AlertDialog(
-                                title: Text(AppLocalizations.of(context)
-                                    .trans("showAlert")),
+                                backgroundColor: Colors.grey[350],
                                 content: SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment:
@@ -183,7 +180,12 @@ class _UseCardState extends BaseUIState<UseCard> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(AppLocalizations.of(context)
-                                          .trans("discountDate")+': ' + DateTime.now().toString().split('.').first),
+                                          .trans("welcomeAlert") + response.name + AppLocalizations.of(context)
+                                          .trans("showAlertCard") ),
+                                      getContainer(
+                                         Text(AppLocalizations.of(context)
+                                            .trans("discountDate")+': ' + DateTime.now().toString().split('.').first),
+                                      ),
                                       Html(data: response.description),
                                       SizedBox(
                                         height: 8,
@@ -306,7 +308,7 @@ class _UseCardState extends BaseUIState<UseCard> {
                     padding: const EdgeInsets.all(15.0),
                     child: EditableText (
                       controller: _qr, focusNode: node,
-                      cursorColor: AppColors.blue, style: AppTextStyle.mediumWhiteBold, backgroundCursorColor:  AppColors.blue,
+                      cursorColor: AppColors.blue, style: AppTextStyle.mediumBlack, backgroundCursorColor:  AppColors.blue,
                 ),
                   )),
           ),
@@ -330,14 +332,20 @@ class _UseCardState extends BaseUIState<UseCard> {
                       builder: (context) {
                         double rate =response.rate;
                         return AlertDialog(
-                          title: Text(AppLocalizations.of(context)
-                              .trans("showAlert")),
+                          backgroundColor: Colors.grey[350],
                           content: SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment:
                               CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                Text(AppLocalizations.of(context)
+                                    .trans("welcomeAlert") + response.name + AppLocalizations.of(context)
+                                    .trans("showAlertCard") ),
+                                getContainer(
+                                   Text(AppLocalizations.of(context)
+                                      .trans("discountDate")+': ' + DateTime.now().toString().split('.').first),
+                                ),
                                 Html(data: response.description),
                                 SizedBox(
                                   height: 8,
@@ -346,7 +354,7 @@ class _UseCardState extends BaseUIState<UseCard> {
                                   textDirection: TextDirection.ltr,
                                   child: SmoothStarRating(
                                     starCount: 5,
-                                    rating: 0,
+                                    rating: rate,
                                     //allowHalfRating: false,
                                     color: AppColors.orange,
                                     borderColor: AppColors.orange,
@@ -467,6 +475,74 @@ class _UseCardState extends BaseUIState<UseCard> {
   void init() {
     isLoading = false;
     node =FocusNode();
+
+    _resizableController = new AnimationController(
+      vsync: this,
+      duration: new Duration(
+        milliseconds: 500,
+      ),
+    );
+    _resizableController.addStatusListener((animationStatus) {
+      switch (animationStatus) {
+        case AnimationStatus.completed:
+          _resizableController.reverse();
+          break;
+        case AnimationStatus.dismissed:
+          _resizableController.forward();
+          break;
+        case AnimationStatus.forward:
+          break;
+        case AnimationStatus.reverse:
+          break;
+      }
+    });
+    _resizableController.forward();
     // widget.bloc.getSerialNumbers(cardId: widget.cardId);
   }
+
+
+
+
+  static Color colorVariation(int note){
+    if(note <= 1){
+      return Colors.orange[50];
+    }else if(note>1 && note<=2){
+      return Colors.orange[100];
+    }else if(note>2 && note<=3){
+      return Colors.orange[200];
+    }else if(note>3 && note<=4){
+      return Colors.orange[300];
+    }else if(note>4 && note<=5){
+      return Colors.orange[400];
+    }else if(note>5 && note<=6){
+      return Colors.orange;
+    }else if(note>6 && note<=7){
+      return Colors.orange[600];
+    }else if(note>7 && note<=8){
+      return Colors.orange[700];
+    }else if(note>8 && note<=9){
+      return Colors.orange[800];
+    }else if(note>9 && note<=10){
+      return Colors.orange[900];
+    }
+  }
+
+  AnimatedBuilder getContainer(Widget text) {
+    return new AnimatedBuilder(
+        animation: _resizableController,
+        builder: (context, child) {
+          return Container(
+            //color: colorVariation((_resizableController.value *100).round()),
+            padding: EdgeInsets.all(24),
+            child:text,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              border: Border.all(
+                  color: colorVariation((_resizableController.value *10).round()), width:10),
+            ),
+          );
+        });
+  }
+
 }

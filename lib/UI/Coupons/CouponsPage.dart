@@ -40,48 +40,52 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
     double width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        filterWidget(
-          label: AppLocalizations.of(context).trans("city"),
-          selectedId: cityId,
-          selectedName: cityName,
-          onTap: (){
-            helper.showCitySheet(context, onSelected: (name,id){
-              setState(() {
-                cityId = id?.toString()??null;
-                cityName = name;
-                getData();
-              });
-            },optional: true);
-          },
+        Container(
+          child: Column(children: [
+            filterWidget(
+              label: AppLocalizations.of(context).trans("city"),
+              selectedId: cityId,
+              selectedName: cityName,
+              onTap: (){
+                helper.showCitySheet(context, onSelected: (name,id){
+                  setState(() {
+                    cityId = id?.toString()??null;
+                    cityName = name;
+                    getData();
+                  });
+                },optional: true);
+              },
+            ),
+            filterWidget(
+                label: AppLocalizations.of(context).trans("businessType"),
+                selectedId: businessId,
+                selectedName: businessName,
+                onTap: (){
+                  helper.showBusinessTypesSheet(context, widget.networkId,onSelected: (name,id){
+                    setState(() {
+                      businessId = id?.toString()??null;
+                      businessName = name;
+                      getData();
+                    });
+                  },optional: true,refresh: true);
+                }
+            ),
+            dataStore.user != null?filterWidget(
+                label: AppLocalizations.of(context).trans("isReserved"),
+                selectedId: reservedId,
+                selectedName: reservedName,
+                onTap: (){
+                  helper.showReservedSheet(context,onSelected: (name,id){
+                    setState(() {
+                      reservedId = id?.toString()??null;
+                      reservedName = name;
+                      getData();
+                    });
+                  },optional: true);
+                }
+            ):Container(),
+          ],),
         ),
-        filterWidget(
-            label: AppLocalizations.of(context).trans("businessType"),
-            selectedId: businessId,
-            selectedName: businessName,
-            onTap: (){
-              helper.showBusinessTypesSheet(context, widget.networkId,onSelected: (name,id){
-                setState(() {
-                  businessId = id?.toString()??null;
-                  businessName = name;
-                  getData();
-                });
-              },optional: true,refresh: true);
-            }
-        ),
-        dataStore.user != null?filterWidget(
-            label: AppLocalizations.of(context).trans("isReserved"),
-            selectedId: reservedId,
-            selectedName: reservedName,
-            onTap: (){
-              helper.showReservedSheet(context,onSelected: (name,id){
-                setState(() {
-                  reservedId = id?.toString()??null;
-                  reservedName = name;
-                  getData();
-                });
-              },optional: true);
-            }
-        ):Container(),
         Expanded(
           child: StreamBuilder<CouponsModel>(
                   stream: widget.bloc.couponsStream,
@@ -91,23 +95,29 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
                       return helper.empty(context);
                     }
                     if(snapshot.hasData){
-                        if(pages.isEmpty){
-                          for (int i = 0; i <= snapshot.data.dataCount; i++) {
-                            if(i == 0 ){
-                              pages.add(PageModel(isSelected: true,number: (i+1).toString()));
+                      if(pages.isEmpty){
+                        if(snapshot.data.dataCount ==0){
+                          pages.add(PageModel(isSelected: true,number: '1'));
+                        }else {
+                          for (int i = 1; i <= snapshot.data.dataCount; i++) {
+                            if(i == 1 ){
+                              pages.add(PageModel(isSelected: true,number: (i).toString()));
                             }
-                            else  pages.add(PageModel(isSelected: false,number: (i+1).toString()));
+                            else  pages.add(PageModel(isSelected: false,number: (i).toString()));
                           }
-                        }
-                        else if (pages.length != snapshot.data.dataCount+1){
-                          pages = [];
-                          for (int i = 0; i <= snapshot.data.dataCount; i++) {
-                            if(i == 0 ){
-                              pages.add(PageModel(isSelected: true,number: (i+1).toString()));
-                            }
-                            else  pages.add(PageModel(isSelected: false,number: (i+1).toString()));
+                        }}
+                      else if (pages.length != snapshot.data.dataCount && snapshot.data.dataCount != 0){
+                        pages = [];
+                        for (int i = 1; i <= snapshot.data.dataCount; i++) {
+                          if(i == 1 ){
+                            pages.add(PageModel(isSelected: true,number: (i).toString()));
                           }
+                          else  pages.add(PageModel(isSelected: false,number: (i).toString()));
                         }
+                      }else if (pages.length != snapshot.data.dataCount && snapshot.data.dataCount == 0){
+                        pages = [];
+                        pages.add(PageModel(isSelected: true,number: '1'));
+                      }
                       return Column(
                         children: [
 
@@ -138,7 +148,7 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('رقم الصفحة: ', style: AppTextStyle
+                                child: Text(AppLocalizations.of(context).trans("pageNumber"), style: AppTextStyle
                                     .normalWhite,),),
                               Expanded(
                                 child: Container(
@@ -181,11 +191,11 @@ class _CouponsPageState extends BaseUIState<CouponsPage> {
   @override
   void init() {
     pages = [];
+    counter = 1;
     getData();
   }
 
   getData(){
-    counter = 1;
     widget.bloc.getCoupons(cityId: cityId??"", businessTypeId: businessId??"",reserved: reservedId??"" ,networkId: widget.networkId,serviceProviderId: "",offset: 0);
   }
   filterWidget({label,selectedId , selectedName , onChanged,onTap}) {

@@ -152,6 +152,7 @@ class CardCard {
     this.id,
     this.networkId,
     this.name,
+    this.name_en,
     this.photo,
     this.expireAt,
     this.description,
@@ -165,6 +166,7 @@ class CardCard {
   int id;
   int networkId;
   String name;
+  String name_en;
   String photo;
   String expireAt;
   String description;
@@ -178,6 +180,7 @@ class CardCard {
     id: json["id"] == null ? null : json["id"],
     networkId: json["network_id"] == null ? null : json["network_id"],
     name: json["name"] == null ? null : json["name"],
+    name_en: json["name_en"] == null ? null : json["name_en"],
     photo: json["photo"] == null ? null : json["photo"],
     expireAt: json["expire_at"] == null ? null : json["expire_at"],
     description: json["description"] == null ? null : json["description"],

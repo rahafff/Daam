@@ -81,23 +81,32 @@ class _ServiceProvidersPageState extends BaseUIState<ServiceProvidersPage> {
                     return helper.empty(context);
                   }
                   if (snapshot.hasData) {
-                   if(pages.isEmpty){
-                     for (int i = 0; i <= snapshot.data.dataCount; i++) {
-                       if(i == 0 ){
-                         pages.add(PageModel(isSelected: true,number: (i+1).toString()));
+                    if(pages.isEmpty){
+                      if(snapshot.data.dataCount ==0){
+                        pages.add(PageModel(isSelected: true,number: '1'));
+                        print('hello');
+                      }else {
+                     for (int i = 1; i <= snapshot.data.dataCount; i++) {
+                       if(i == 1 ){
+                         print('hello i=1');
+                         pages.add(PageModel(isSelected: true,number: (i).toString()));
                        }
-                       else  pages.add(PageModel(isSelected: false,number: (i+1).toString()));
+                       else  pages.add(PageModel(isSelected: false,number: (i).toString()));
                      }
-                   }
-                   else if (pages.length != snapshot.data.dataCount+1){
+                   }}
+                   else if (pages.length != snapshot.data.dataCount && snapshot.data.dataCount != 0){
                      pages = [];
-                     for (int i = 0; i <= snapshot.data.dataCount; i++) {
-                       if(i == 0 ){
-                         pages.add(PageModel(isSelected: true,number: (i+1).toString()));
+                     for (int i = 1; i <= snapshot.data.dataCount; i++) {
+                       if(i == 1 ){
+                         print('here');
+                         pages.add(PageModel(isSelected: true,number: (i).toString()));
                        }
-                       else  pages.add(PageModel(isSelected: false,number: (i+1).toString()));
+                       else  pages.add(PageModel(isSelected: false,number: (i).toString()));
                      }
-                   }
+                   }else if (pages.length != snapshot.data.dataCount && snapshot.data.dataCount == 0){
+                      pages = [];
+                      pages.add(PageModel(isSelected: true,number: '1'));
+                    }
 
                     return Column(
                       children: [
@@ -130,7 +139,7 @@ class _ServiceProvidersPageState extends BaseUIState<ServiceProvidersPage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('رقم الصفحة: ', style: AppTextStyle
+                              child: Text(AppLocalizations.of(context).trans("pageNumber"), style: AppTextStyle
                                   .normalWhite,),),
                             Expanded(
                               child: Container(

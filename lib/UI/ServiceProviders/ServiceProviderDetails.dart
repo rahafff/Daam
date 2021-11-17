@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:first_card_project/Bloc/GeneralBloc.dart';
 import 'package:first_card_project/Bloc/ServiceProvidersBloc.dart';
@@ -192,7 +193,7 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                                     topRight: Radius.circular(0)),
                                 child: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                      MediaQuery.of(context).size.height * 0.5,
                                   decoration: BoxDecoration(),
                                   child: Swiper(
                                     itemCount: snapshot.data.data.length,
@@ -215,11 +216,11 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                                                   '${AppConstant.IMAGE_URL + snapshot.data.data[index].photo}',
                                               //"https://img.freepik.com/free-vector/breaking-news-live-world-map-connection_41981-1139.jpg?size=626&ext=jpg",
                                               //"assets/images/home_page_image.png",
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.cover,
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .height *
-                                                  0.3,
+                                                  0.5,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,

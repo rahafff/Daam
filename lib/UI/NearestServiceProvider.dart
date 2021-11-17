@@ -41,7 +41,7 @@ class _NearestServiceProviderState extends BaseUIState<NearestServiceProvider> {
         if(snapshot.hasData){
           return GoogleMap(
               initialCameraPosition:CameraPosition(//24.657026, 46.641068 // 24.858797,46.7927103
-                target: LatLng(widget.bloc.pos?.latitude?? /*33.5155067*/24.858797,widget.bloc.pos?.longitude??/*36.2819488*/46.7927103),zoom: 14
+                target: LatLng(widget.bloc.pos?.latitude?? /*33.5155067*/24.858797,widget.bloc.pos?.longitude??/*36.2819488*/46.7927103),zoom: 17
               ),
             myLocationEnabled: true,
             markers: snapshot.data.data.map((e) => Marker(

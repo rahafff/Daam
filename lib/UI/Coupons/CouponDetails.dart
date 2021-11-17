@@ -102,7 +102,51 @@ class _CouponDetailsState extends BaseUIState<CouponDetails> {
                       ),
                       dataRow(
                           name: AppLocalizations.of(context).trans("name"),
-                          value: snapshot.data.data.name),
+                          value: snapshot.data.data.name ,
+                      //     onTap: (){
+                      //   Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      //     return ServiceProviderDetails(providerId: snapshot.data.data.serviceProvider.id.toString(),bloc:ServiceProvidersBloc());
+                      //   }));
+                      // }
+                      ),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.all(8),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(AppLocalizations.of(context).trans("serviceProviderName"),  style: AppTextStyle.mediumWhite,),
+                            ),
+                            SizedBox(width: 70,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(snapshot.data.data.serviceProvider.businessName, style: AppTextStyle.mediumWhiteBold,),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      CustomAppButton(
+                        child: Text(
+                          AppLocalizations.of(context).trans("showDetails"),
+                          style: AppTextStyle.mediumWhiteBold,
+                        ),
+                        color: AppColors.cyan,
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                            return ServiceProviderDetails(providerId: snapshot.data.data.serviceProvider.id.toString(),bloc:ServiceProvidersBloc());
+                          }));
+                        },
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 26, vertical: 8),
+                        borderRadius: 20,
+                        elevation: 2,
+                      ),
+                      Divider(
+                        color: AppColors.orange,
+                        thickness: 1.5,
+                      ),
                       // dataRow(
                       //     name: AppLocalizations.of(context).trans("card"),
                       //     value: widget.data.card.name),
@@ -111,13 +155,7 @@ class _CouponDetailsState extends BaseUIState<CouponDetails> {
                       //     value: widget.data.expireAt +
                       //         "  " +
                       //         AppLocalizations.of(context).trans("day")),
-                      dataRow(
-                          name: AppLocalizations.of(context).trans("serviceProviderName"),
-                          value: snapshot.data.data.serviceProvider.businessName , onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                              return ServiceProviderDetails(providerId: snapshot.data.data.serviceProvider.id.toString(),bloc:ServiceProvidersBloc());
-                            }));
-                      }),
+
                       dataRow(
                           name: AppLocalizations.of(context).trans("number_of_usage"),
                           value: snapshot.data.data.numberOfUsage.toString()),
@@ -210,22 +248,7 @@ class _CouponDetailsState extends BaseUIState<CouponDetails> {
                                     borderRadius: 20,
                                     elevation: 2,
                                   ),
-                                  CustomAppButton(
-                                    child: Text(
-                                      AppLocalizations.of(context).trans("serviceProvider"),
-                                      style: AppTextStyle.mediumWhiteBold,
-                                    ),
-                                    color: AppColors.cyan,
-                                    onTap: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                        return ServiceProviderDetails(providerId: snapshot.data.data.serviceProvider.id.toString(),bloc:ServiceProvidersBloc());
-                                      }));
-                                    },
-                                    padding:
-                                    EdgeInsets.symmetric(horizontal: 26, vertical: 8),
-                                    borderRadius: 20,
-                                    elevation: 2,
-                                  ),
+
                                 ],
                               ),
                             ),

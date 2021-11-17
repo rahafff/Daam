@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:first_card_project/Helper/AppColors.dart';
 import 'package:first_card_project/Helper/AppConstant.dart';
 import 'package:first_card_project/Helper/AppTextStyle.dart';
+import 'package:first_card_project/Helper/Utils.dart';
+import 'package:first_card_project/Localization/AppLocal.dart';
 import 'package:first_card_project/Models/SalesCenters.dart';
 import 'package:first_card_project/Widget/GoogleMap.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +110,51 @@ class _SalesCenterDetailsState extends State<SalesCenterDetails> {
             SizedBox(
               height: 8,
             ),
+            Row(children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () async {
+                    String origin =
+                        "${widget.data.latitude??"0.0"},${widget.data.longitude??"0.0"}"; // lat,long like 123.34,68.56
+                    String destination =
+                        "${double.parse(widget.data.latitude??"0.0" )},${double.parse(widget.data.longitude??"0.0")}";
+                    print("now lanuch");
+                    Utils.lunchURL(
+                        "https://www.google.com/maps/dir/?api=1&origin=" +
+                            origin +
+                            "&destination=" +
+                            destination);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.orange,
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)
+                                .trans("direction"),
+                            style: AppTextStyle.mediumWhiteBold,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Icon(
+                            Icons.location_on,
+                            size: 24,
+                            color: AppColors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

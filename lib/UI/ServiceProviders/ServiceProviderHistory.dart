@@ -8,6 +8,8 @@ import 'package:first_card_project/Models/History.dart';
 import 'package:first_card_project/UI/BaseUI.dart';
 import 'package:first_card_project/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
+
+import '../../DataStore.dart';
 class ServiceProviderHistory extends BaseUI<ServiceProvidersBloc> {
   @override
   _ServiceProviderHistoryState createState() => _ServiceProviderHistoryState();
@@ -120,7 +122,7 @@ class _ServiceProviderHistoryState extends BaseUIState<ServiceProviderHistory> {
               children: [
                 Text(AppLocalizations.of(context).trans("card")+" : " , style: AppTextStyle.mediumBlackBold,),
                 SizedBox(width: 8,),
-                Text(item.card.card.name , style: AppTextStyle.mediumBlack,)
+                Text(dataStore.lang =='en'? item.card.card.name_en : item.card.card.name, style: AppTextStyle.mediumBlack,)
               ],
             ),
             SizedBox(height: 8,),
@@ -168,7 +170,7 @@ class _ServiceProviderHistoryState extends BaseUIState<ServiceProviderHistory> {
               children: [
                 Text(AppLocalizations.of(context).trans("coupon")+" : " , style: AppTextStyle.mediumBlackBold,),
                 SizedBox(width: 8,),
-                Text(item.coupon.name??'' , style: AppTextStyle.mediumBlack,)
+                Text(dataStore.lang =='en'? item.coupon.name_en??'': item.coupon.name??'', style: AppTextStyle.mediumBlack,)
               ],
             ),
             SizedBox(height: 8,),

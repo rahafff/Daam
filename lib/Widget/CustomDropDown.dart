@@ -68,7 +68,7 @@ class PopupMenuItemState<T, W extends CustomDropDownItem<T>> extends State<W> {
     final ThemeData theme = Theme.of(context);
     final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
     TextStyle style =
-        widget.textStyle ?? popupMenuTheme.textStyle ?? theme.textTheme.subhead;
+        widget.textStyle ?? popupMenuTheme.textStyle ?? theme.textTheme.subtitle2;
 
     if (!widget.enabled) style = style.copyWith(color: theme.disabledColor);
 

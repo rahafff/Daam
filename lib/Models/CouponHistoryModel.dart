@@ -87,7 +87,7 @@ class ServiceCouponHistory {
     value: json["value"] == null ? null : json["value"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     user: json["user"] == null ? null : User.fromJson(json["user"]),
-    coupon: json["coupon"] == null ? null : SelectedCoupon.fromJson(json["coupon"]),
+    coupon: json["coupon"] == null ? SelectedCoupon() : SelectedCoupon.fromJson(json["coupon"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -109,6 +109,7 @@ class SelectedCoupon {
     this.serviceProviderId,
     this.cardId,
     this.name,
+    this.name_en,
     this.expireAt,
     this.numberOfUsage,
     this.description,
@@ -126,6 +127,7 @@ class SelectedCoupon {
   int serviceProviderId;
   int cardId;
   String name;
+  String name_en;
   String expireAt;
   int numberOfUsage;
   String description;
@@ -143,6 +145,7 @@ class SelectedCoupon {
     serviceProviderId: json["service_provider_id"] == null ? null : json["service_provider_id"],
     cardId: json["card_id"] == null ? null : json["card_id"],
     name: json["name"] == null ? null : json["name"],
+    name_en: json["name_en"] == null ? null : json["name_en"],
     expireAt: json["expire_at"] == null ? null : json["expire_at"],
     numberOfUsage: json["number_of_usage"] == null ? null : json["number_of_usage"],
     description: json["description"] == null ? null : json["description"],
