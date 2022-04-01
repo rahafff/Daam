@@ -51,12 +51,15 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
   bool _isLoading = false;
   LatLng _center;
   Position currentLocation;
+  List<String> imageArray;
   @override
   Widget buildUI(BuildContext context) {
     return StreamBuilder<ServiceProviderDetailsModel>(
         stream: widget.bloc.servicesDetailsStream,
         builder: (context, snapshot) {
-          if (snapshot.hasData)
+          if (snapshot.hasData){
+            print('now in top');
+            imageArray.add(snapshot.data.data.photo);
             return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -72,110 +75,110 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                   dataStore.user == null || snapshot.data.data.canRate == 0
                       ? Container()
                       : InkWell(
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.star_rate,
-                                  size: 25,
-                                ),
-                                Text(
-                                  AppLocalizations.of(context).trans("rate"),
-                                  style: AppTextStyle.smallWhiteBold,
-                                )
-                              ],
-                            ),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.star_rate,
+                            size: 25,
                           ),
-                          onTap: () async {
-                            //snapshot.data.data.ra
-                            var res = await showDialog<double>(
-                                context: context,
-                                builder: (context) {
-                                  double rate =
-                                      snapshot.data.data.rate.toDouble();
-                                  return AlertDialog(
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(AppLocalizations.of(context)
-                                                .trans("rate") +
-                                            " " +
-                                            snapshot.data.data.businessName),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        Directionality(
-                                          textDirection: TextDirection.ltr,
-                                          child: SmoothStarRating(
-                                            starCount: 5,
-                                            rating: rate,
-                                            //allowHalfRating: false,
-                                            color: AppColors.orange,
-                                            borderColor: AppColors.orange,
-                                            onRated: (value) {
-                                              rate = value;
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        CustomAppButton(
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                .trans("rate"),
-                                            style: AppTextStyle.mediumWhiteBold,
-                                          ),
-                                          color: AppColors.cyan,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 8),
-                                          borderRadius: 20,
-                                          elevation: 2,
-                                          onTap: () {
-                                            Navigator.of(context).pop(rate);
-                                          },
-                                        )
-                                      ],
+                          Text(
+                            AppLocalizations.of(context).trans("rate"),
+                            style: AppTextStyle.smallWhiteBold,
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () async {
+                      //snapshot.data.data.ra
+                      var res = await showDialog<double>(
+                          context: context,
+                          builder: (context) {
+                            double rate =
+                            snapshot.data.data.rate.toDouble();
+                            return AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(AppLocalizations.of(context)
+                                      .trans("rate") +
+                                      " " +
+                                      snapshot.data.data.businessName),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: SmoothStarRating(
+                                      starCount: 5,
+                                      rating: rate,
+                                      //allowHalfRating: false,
+                                      color: AppColors.orange,
+                                      borderColor: AppColors.orange,
+                                      onRated: (value) {
+                                        rate = value;
+                                      },
                                     ),
-                                  );
-                                });
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  CustomAppButton(
+                                    child: Text(
+                                      AppLocalizations.of(context)
+                                          .trans("rate"),
+                                      style: AppTextStyle.mediumWhiteBold,
+                                    ),
+                                    color: AppColors.cyan,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    borderRadius: 20,
+                                    elevation: 2,
+                                    onTap: () {
+                                      Navigator.of(context).pop(rate);
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          });
 
-                            if (res != null) {
+                      if (res != null) {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        widget.bloc.addRate(
+                            serviceProviderId:
+                            widget.providerId.toString(),
+                            rate: res.toString(),
+                            onData: () {
+                              showErrorDialog(
+                                  context,
+                                  AppLocalizations.of(context)
+                                      .trans("ratedSuccessfully"),
+                                  isError: false);
+                              snapshot.data.data.rate = res;
                               setState(() {
-                                _isLoading = true;
+                                _isLoading = false;
                               });
-                              widget.bloc.addRate(
-                                  serviceProviderId:
-                                      widget.providerId.toString(),
-                                  rate: res.toString(),
-                                  onData: () {
-                                    showErrorDialog(
-                                        context,
-                                        AppLocalizations.of(context)
-                                            .trans("ratedSuccessfully"),
-                                        isError: false);
-                                    snapshot.data.data.rate = res;
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  },
-                                  onError: (String e) {
-                                    showErrorDialog(
-                                        context,
-                                        e.isEmpty
-                                            ? AppLocalizations.of(context)
-                                                .trans("wrong")
-                                            : e,
-                                        isError: true);
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  });
-                            }
-                          },
-                        )
+                            },
+                            onError: (String e) {
+                              showErrorDialog(
+                                  context,
+                                  e.isEmpty
+                                      ? AppLocalizations.of(context)
+                                      .trans("wrong")
+                                      : e,
+                                  isError: true);
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            });
+                      }
+                    },
+                  )
                 ],
               ),
               body: ModalProgressHUD(
@@ -186,17 +189,20 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                       StreamBuilder<ImageSliderModel>(
                           stream: widget.bloc.imageSliderStream,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData)
+                            if (snapshot.hasData){
+                              for(Datum  photo in snapshot.data.data){
+                                imageArray.add(photo.photo);
+                              }
                               return ClipRRect(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(0),
                                     topRight: Radius.circular(0)),
                                 child: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                  MediaQuery.of(context).size.height * 0.5,
                                   decoration: BoxDecoration(),
                                   child: Swiper(
-                                    itemCount: snapshot.data.data.length,
+                                    itemCount: imageArray.length,
                                     // snapshot.data.slider.length,
                                     autoplay: true,
                                     pagination: SwiperPagination(
@@ -213,13 +219,13 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                                           Container(
                                             child: CachedNetworkImage(
                                               imageUrl:
-                                                  '${AppConstant.IMAGE_URL + snapshot.data.data[index].photo}',
+                                              '${AppConstant.IMAGE_URL + imageArray[index]}',
                                               //"https://img.freepik.com/free-vector/breaking-news-live-world-map-connection_41981-1139.jpg?size=626&ext=jpg",
                                               //"assets/images/home_page_image.png",
                                               fit: BoxFit.cover,
                                               height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
+                                                  .size
+                                                  .height *
                                                   0.5,
                                               width: MediaQuery.of(context)
                                                   .size
@@ -233,10 +239,11 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                                   ),
                                 ),
                               );
+                            }
                             else
                               return Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.35,
+                                MediaQuery.of(context).size.height * 0.35,
                                 width: double.infinity,
                                 child: Center(
                                   child: CircularProgressIndicator(),
@@ -550,23 +557,23 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                             snapshot.data.data.longitude == null
                                 ? Container()
                                 : Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.2,
-                                    width: double.infinity,
-                                    child: //AppleMapWidget
-                                        MapWidget(LatLng(
-                                            double.parse(
-                                                snapshot.data.data.latitude ??
-                                                    "0.0"),
-                                            double.parse(
-                                                snapshot.data.data.longitude ??
-                                                    "0.0")),center: _center,),
+                              height: MediaQuery.of(context).size.height *
+                                  0.2,
+                              width: double.infinity,
+                              child: //AppleMapWidget
+                              MapWidget(LatLng(
+                                  double.parse(
+                                      snapshot.data.data.latitude ??
+                                          "0.0"),
+                                  double.parse(
+                                      snapshot.data.data.longitude ??
+                                          "0.0")),center: _center,),
 
 //                    child: Image.asset(
 //                      "assets/images/map.jpg",
 //                      fit: BoxFit.cover,
 //                    ),
-                                  ),
+                            ),
                             SizedBox(
                               height: 8,
                             ),
@@ -578,6 +585,9 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
                 ),
               ),
             );
+          }
+
+
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -589,6 +599,8 @@ class _ServiceProviderDetailsState extends BaseUIState<ServiceProviderDetails> {
     widget.bloc.getServiceProvider(providerId: widget.providerId);
     widget.bloc.getImageSlider(widget.providerId);
     getUserLocation();
+
+    imageArray = [];
   }
 
   Future<Position> locateUser() async {

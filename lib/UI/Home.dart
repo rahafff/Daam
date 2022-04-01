@@ -207,8 +207,11 @@ class _HomeState extends BaseUIState<Home> {
                           })
                         : Container(),
 
-                    drawerWidget("language", onTap: () {
-                      showChangeLanguageDialog(context);
+                    drawerWidget("language", onTap: () async{
+                    await  showChangeLanguageDialog(context);
+                    setState(() {
+                      widget.bloc.getMyCard();
+                    });
                     }),
 
                     drawerWidget("termsOfService", onTap: () {

@@ -165,6 +165,7 @@ class CardCard {
     this.id,
     this.networkId,
     this.name,
+    this.name_en,
     this.photo,
     this.expireAt,
     this.description,
@@ -178,6 +179,7 @@ class CardCard {
   int id;
   int networkId;
   String name;
+  String name_en;
   String photo;
   String expireAt;
   String description;
@@ -191,6 +193,7 @@ class CardCard {
     id: json["id"] == null ? null : json["id"],
     networkId: json["network_id"] == null ? null : json["network_id"],
     name: json["name"] == null ? null : json["name"],
+    name_en: json["name_en"] == null ? null : json["name_en"],
     photo: json["photo"] == null ? null : json["photo"],
     expireAt: json["expire_at"] == null ? null : json["expire_at"],
     description: json["description"] == null ? null : json["description"],
@@ -278,6 +281,7 @@ class ServiceProvider {
     this.networkId,
     this.businessTypeId,
     this.name,
+    this.businessName_en,
     this.businessName,
     this.email,
     this.phoneNumber,
@@ -298,6 +302,7 @@ class ServiceProvider {
   int businessTypeId;
   String name;
   String businessName;
+  String businessName_en;
   String email;
   String phoneNumber;
   String location;
@@ -317,6 +322,7 @@ class ServiceProvider {
     businessTypeId: json["business_type_id"] == null ? null : json["business_type_id"],
     name: json["name"] == null ? null : json["name"],
     businessName: json["business_name"] == null ? null : json["business_name"],
+    businessName_en: json["business_name_en"] == null ? null : json["business_name_en"],
     email: json["email"] == null ? null : json["email"],
     phoneNumber: json["phone_number"] == null ? null : json["phone_number"],
     location: json["location"] == null ? null : json["location"],

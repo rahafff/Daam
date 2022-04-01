@@ -1,4 +1,5 @@
 import 'package:first_card_project/Bloc/AuthBloc.dart';
+import 'package:first_card_project/DataStore.dart';
 import 'package:first_card_project/Helper/AppColors.dart';
 import 'package:first_card_project/Helper/AppTextStyle.dart';
 import 'package:first_card_project/Helper/Utils.dart';
@@ -23,6 +24,7 @@ class _UserHistoryState extends BaseUIState<UserHistoryPage> {
   }
 
   bool isCard = true;
+  bool isEn = false;
 
   @override
   Widget buildUI(BuildContext context) {
@@ -159,6 +161,7 @@ class _UserHistoryState extends BaseUIState<UserHistoryPage> {
 
   @override
   void init() {
+   isEn =  dataStore.lang =='en';
     widget.bloc.getUserHistory();
   }
 
@@ -178,7 +181,7 @@ class _UserHistoryState extends BaseUIState<UserHistoryPage> {
               children: [
                 Text(AppLocalizations.of(context).trans("serviceProviderName")+" : " , style: AppTextStyle.mediumBlackBold,),
                 SizedBox(width: 8,),
-                Text(item.serviceProvider.name , style: AppTextStyle.mediumBlack,)
+                Text( isEn ? item.serviceProvider.businessName_en : item.serviceProvider.businessName  , style: AppTextStyle.mediumBlack,)
               ],
             ),
             SizedBox(height: 8,),
@@ -194,7 +197,7 @@ class _UserHistoryState extends BaseUIState<UserHistoryPage> {
               children: [
                 Text(AppLocalizations.of(context).trans("card")+" : " , style: AppTextStyle.mediumBlackBold,),
                 SizedBox(width: 8,),
-                Text(item.card.card.name , style: AppTextStyle.mediumBlack,)
+                Text( isEn? item.card.card.name_en  : item.card.card.name , style: AppTextStyle.mediumBlack,)
               ],
             ),
             SizedBox(height: 8,),
@@ -242,7 +245,7 @@ class _UserHistoryState extends BaseUIState<UserHistoryPage> {
               children: [
                 Text(AppLocalizations.of(context).trans("coupon")+" : " , style: AppTextStyle.mediumBlackBold,),
                 SizedBox(width: 8,),
-                Text(item?.coupon?.name??"" , style: AppTextStyle.mediumBlack,)
+                Text(isEn? item?.coupon?.name_en??"" : item?.coupon?.name??"" , style: AppTextStyle.mediumBlack,)
               ],
             ),
             SizedBox(height: 8,),

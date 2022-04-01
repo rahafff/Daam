@@ -103,6 +103,7 @@ class Coupon {
     this.serviceProviderId,
     this.cardId,
     this.name,
+    this.name_en,
     this.expireAt,
     this.numberOfUsage,
     this.description,
@@ -120,6 +121,7 @@ class Coupon {
   int serviceProviderId;
   int cardId;
   String name;
+  String name_en;
   String expireAt;
   int numberOfUsage;
   String description;
@@ -137,6 +139,7 @@ class Coupon {
     serviceProviderId: json["service_provider_id"] == null ? null : json["service_provider_id"],
     cardId: json["card_id"] == null ? null : json["card_id"],
     name: json["name"] == null ? null : json["name"],
+    name_en: json["name_en"] == null ? null : json["name_en"],
     expireAt: json["expire_at"] == null ? null : json["expire_at"],
     numberOfUsage: json["number_of_usage"] == null ? null : json["number_of_usage"],
     description: json["description"] == null ? null : json["description"],

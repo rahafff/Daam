@@ -338,34 +338,37 @@ class _UserDetailsState extends BaseUIState<UserDetails> {
       Function onTap,
         bool editable = true
       }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            title,
-            style: AppTextStyle.normalWhiteBold,
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(start: 10 ,end: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title,
+              style: AppTextStyle.normalWhiteBold,
+            ),
           ),
-        ),
-        TextField(
-          controller: controller,
-          focusNode: focusNode,
-          onTap: onTap,
-          style: AppTextStyle.mediumWhite,
-          readOnly: !edit || onTap != null || !editable ,
-          maxLines: 1,
-          decoration: InputDecoration(border: InputBorder.none),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Container(
-          height: 1,
-          width: MediaQuery.of(context).size.width,
-          color: AppColors.white,
-        )
-      ],
+          TextField(
+            controller: controller,
+            focusNode: focusNode,
+            onTap: onTap,
+            style: AppTextStyle.mediumWhite,
+            readOnly: !edit || onTap != null || !editable ,
+            maxLines: 1,
+            decoration: InputDecoration(border: InputBorder.none),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            height: 1,
+            width: MediaQuery.of(context).size.width,
+            color: AppColors.white,
+          )
+        ],
+      ),
     );
   }
 

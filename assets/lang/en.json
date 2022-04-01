@@ -130,6 +130,6 @@
 
 
   "welcomeAlert": "Welcome to ",
-  "showAlertCard": "The card has been successfully verified and is effective, please show this page to the center or shop in order to obtain the discount",
-  "showAlertCoupon": "The Coupon has been successfully verified and is effective, please show this page to the center or shop in order to obtain the discount",
+  "showAlertCard": " The card has been successfully verified and is effective, please show this page to the center or shop in order to obtain the discount",
+  "showAlertCoupon": " The Coupon has been successfully verified and is effective, please show this page to the center or shop in order to obtain the discount"
 }

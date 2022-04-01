@@ -24,7 +24,7 @@ class HelperWidgets {
                   offset: Offset(0, 6))
             ]),
         child: TextFormField(
-          autovalidate: true,
+//          autovalidate: true,
           readOnly: readOnly,
           keyboardType: inputType,
           maxLines: maxLines,

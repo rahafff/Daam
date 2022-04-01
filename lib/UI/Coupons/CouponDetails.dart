@@ -118,10 +118,12 @@ class _CouponDetailsState extends BaseUIState<CouponDetails> {
                               padding: const EdgeInsets.symmetric(horizontal: 8),
                               child: Text(AppLocalizations.of(context).trans("serviceProviderName"),  style: AppTextStyle.mediumWhite,),
                             ),
-                            SizedBox(width: 70,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(snapshot.data.data.serviceProvider.businessName, style: AppTextStyle.mediumWhiteBold,),
+//                            SizedBox(width: 10,),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(snapshot.data.data.serviceProvider.businessName, style: AppTextStyle.mediumWhiteBold,),
+                              ),
                             ),
 
                           ],

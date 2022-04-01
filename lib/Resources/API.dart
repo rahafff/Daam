@@ -4,8 +4,8 @@ class API{
  // static String baseUrl = 'http://daamcard.fabrosplus.xyz/api/';
  //  static String baseUrl = 'https://daam.fabrosplus.com/api/';
  //  static String baseUrl = 'https://daam.skyplus.com.tr/api/';
-  static String baseUrl = 'http://daamcard.com/api/';
-  //static String baseUrl = 'http://daamcard.sy/api/';
+//  static String baseUrl = 'http://daamcard.com/api/';
+  static String baseUrl = 'http://daamcard.sy/api/';
 
   static String cities = '${baseUrl}cities';
 

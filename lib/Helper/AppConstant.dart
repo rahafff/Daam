@@ -9,8 +9,8 @@ class AppConstant {
 //  static String parseFollowState(bool state) => state ? '1' : '2';
 //  static String isHardcoreContent(bool state) => state ? '1' : '2';
 //
-  static String IMAGE_URL = 'https://daam.skyplus.com.tr/img/';
-  //static final String IMAGE_URL = 'http://daamcard.com/img/';
+//  static String IMAGE_URL = 'https://daam.skyplus.com.tr/img/';
+  static  String IMAGE_URL = 'http://daamcard.sy/img/';
  // static final String UPLOAD_FILE_URL = 'http://5.134.200.110/upload/public/api/upload';
 
   
